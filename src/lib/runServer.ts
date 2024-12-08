@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import redisClient from "./redis";
 
 dotenv.config();
 export function runServer(app: any) {
