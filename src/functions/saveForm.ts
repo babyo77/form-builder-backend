@@ -21,7 +21,7 @@ export const saveForm = async (
 
     res.cookie("guest_form", String(savedForm._id), {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
       secure: true,
       path: "/",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
