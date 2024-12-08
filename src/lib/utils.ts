@@ -7,6 +7,7 @@ import { GuestSession } from "../models/guestUserModel";
 import { Response } from "express";
 import jwt from "jsonwebtoken";
 import FormSubmitted from "../models/formSubmitMode";
+import { memoryCache } from "../cache/cache";
 export const homeResponse = {
   info: "@babyo7_",
   code: "777",
@@ -36,9 +37,9 @@ export const validateFrom = (formStructure: any) => {
 };
 
 export async function getFormPreview(userId: string) {
-  const saved = await redisClient.get(userId + "form");
+  const saved = memoryCache.has(userId + "form");
   const savedForm = saved
-    ? saved
+    ? memoryCache.get(userId + "form")
     : await Form.findOne({ owner: new mongoose.Types.ObjectId(userId) }).select(
         "-updatedAt -createdAt"
       );
@@ -46,10 +47,10 @@ export async function getFormPreview(userId: string) {
 }
 
 export async function getFromDataById(formId: string) {
-  const saved = await redisClient.get(formId);
+  const saved = memoryCache.has(formId);
 
   const savedForm: IForm = saved
-    ? saved
+    ? memoryCache.get(formId)
     : await Form.findById(new mongoose.Types.ObjectId(formId)).select(
         "-updatedAt -createdAt"
       );
@@ -124,9 +125,9 @@ export const getSubmission = async (savedForm: IForm) => {
 };
 
 export const getPreviousSubmitted = async (userId: string, formId: string) => {
-  const redisAnswer = await redisClient.get(userId + formId + "submitted");
+  const redisAnswer = memoryCache.has(userId + formId + "submitted");
   const answers = redisAnswer
-    ? redisAnswer
+    ? memoryCache.get(userId + formId + "submitted")
     : await FormSubmitted.findOne({ userId, formId }).select(
         "-updatedAt -createdAt"
       );
@@ -143,21 +144,17 @@ export const getPreviousSubmitted = async (userId: string, formId: string) => {
   return null;
 };
 
-export async function deleteSubmittedKeys() {
-  let cursor = "0";
-  const pattern = "*submitted"; // Match all keys ending with "submitted"
+export const deleteCacheByPattern = (pattern: string) => {
+  // Get all the keys in the cache
+  const keys = memoryCache.keys();
 
-  do {
-    // Perform the scan operation with the MATCH option
-    const [newCursor, keys] = await redisClient.scan(cursor, {
-      match: pattern,
-    });
-    cursor = newCursor; // Update cursor for next cycle
-
-    if (keys.length > 0) {
-      // Delete the matching keys
-      await redisClient.del(...keys);
-      console.log(`Deleted keys: ${keys}`);
+  // Loop through all the keys
+  keys.forEach((key) => {
+    // Check if the key matches the pattern
+    if (key.endsWith(pattern)) {
+      // Delete the matching key from the cache
+      memoryCache.del(key);
+      console.log(`Deleted cache item: ${key}`);
     }
-  } while (cursor !== "0"); // Continue scanning until cursor is "0"
-}
+  });
+};

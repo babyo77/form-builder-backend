@@ -6,6 +6,7 @@ import { getFromDataById } from "../lib/utils";
 import FormSubmitted from "../models/formSubmitMode";
 
 import redisClient from "../lib/redis";
+import { memoryCache } from "../cache/cache";
 export const submitForm = async (
   req: CustomRequest,
   res: Response
@@ -30,6 +31,6 @@ export const submitForm = async (
   );
 
   await redisClient.del("submissions" + formId);
-  await redisClient.set(userId + formId + "submitted", formSubmitted);
+  memoryCache.set(userId + formId + "submitted", formSubmitted);
   return res.json({ message: "Form Submitted" });
 };

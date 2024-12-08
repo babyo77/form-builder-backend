@@ -2,8 +2,8 @@ import { Response } from "express";
 import { CustomRequest } from "../middleware/middleware";
 import { ApiError } from "../handlers/ErrorHandler";
 import { Form } from "../models/formModel";
-import redisClient from "../lib/redis";
-import { deleteSubmittedKeys, validateFrom } from "../lib/utils";
+import { deleteCacheByPattern, validateFrom } from "../lib/utils";
+import { memoryCache } from "../cache/cache";
 
 export const saveForm = async (
   req: CustomRequest,
@@ -26,9 +26,9 @@ export const saveForm = async (
       path: "/",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
-    await deleteSubmittedKeys();
-    await redisClient.set(userId + "form", savedForm);
-    await redisClient.set(String(savedForm._id), savedForm);
+    deleteCacheByPattern("submitted");
+    memoryCache.set(userId + "form", savedForm);
+    memoryCache.set(String(savedForm._id), savedForm);
     return res.send(String(savedForm._id));
   }
   return res.status(400).json(form);

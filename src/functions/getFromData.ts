@@ -7,6 +7,7 @@ import {
   makeGuestSession,
 } from "../lib/utils";
 import jwt from "jsonwebtoken";
+import { memoryCache } from "../cache/cache";
 export const getFromData = async (
   req: CustomRequest,
   res: Response
