@@ -131,12 +131,13 @@ export const getPreviousSubmitted = async (userId: string, formId: string) => {
         "-updatedAt -createdAt"
       );
   if (answers) {
-    const formData = (answers as IForm)
-      .toObject()
-      .submittedQuestions?.reduce((acc: any, { _id, value }: any) => {
+    const formData = (answers as any).submittedQuestions?.reduce(
+      (acc: any, { _id, value }: any) => {
         acc[String(_id)] = value;
         return acc;
-      }, {} as Record<string, string>);
+      },
+      {} as Record<string, string>
+    );
     return formData;
   }
   return null;
