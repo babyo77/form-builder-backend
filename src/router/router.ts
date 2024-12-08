@@ -18,8 +18,8 @@ router.get("/", async (_req, res) => {
 });
 
 router.get("/api/make/session", asyncHandler(makeSession));
-router.get("/api/form/info/:id", asyncHandler(getFromData));
-router.post("/api/form/submit/:id", publicAccess, asyncHandler(submitForm));
+router.get("/api/form/info/:id", publicAccess, asyncHandler(getFromData));
+router.post("/api/form/submit/:id", asyncHandler(submitForm));
 
 // auth
 router.use(asyncHandler(middleware));
