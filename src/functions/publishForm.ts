@@ -7,7 +7,7 @@ export const publishForm = async (
   req: CustomRequest,
   res: Response
 ): Promise<Response> => {
-  const formId = req.cookies.guest_form;
+  const formId = req.headers.form || req.cookies.guest_form;
   const unpublish = req.query.type;
   const userId = req.userId;
   if (!formId) throw new ApiError("Form id must be provided", 400);

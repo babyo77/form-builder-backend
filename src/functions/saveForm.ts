@@ -29,7 +29,7 @@ export const saveForm = async (
     await deleteSubmittedKeys();
     await redisClient.set(userId + "form", savedForm);
     await redisClient.set(String(savedForm._id), savedForm);
-    return res.status(204).send();
+    return res.send(String(savedForm._id));
   }
   return res.status(400).json(form);
 };
