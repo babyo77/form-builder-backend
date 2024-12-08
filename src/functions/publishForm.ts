@@ -16,7 +16,7 @@ export const publishForm = async (
   if (!userId) throw new ApiError("Login required", 401);
   const formData = await getFromDataById(formId);
   const isValidFormStructure = validateFormStructure(formData.questions);
-  if (isValidFormStructure.errors)
+  if (isValidFormStructure.errors?.length == 1)
     throw new ApiError(
       "At least one question is required to publish",
       400,
