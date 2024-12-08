@@ -56,5 +56,5 @@ const FormSchema = new Schema<IForm>(
   },
   { timestamps: true }
 );
-
+FormSchema.index({ owner: 1 });
 export const Form: Model<IForm> = mongoose.model<IForm>("Form", FormSchema);
