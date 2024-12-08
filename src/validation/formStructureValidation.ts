@@ -37,8 +37,10 @@ function validateFormStructure(
     const categoriesRequiringTitle: string[] = [
       "long_answer",
       "single_select",
+      "long_answer",
       "date",
       "url",
+      "number",
     ];
     if (categoriesRequiringTitle.includes(question.category)) {
       if (!question.title || question.title.trim() === "") {
@@ -47,23 +49,6 @@ function validateFormStructure(
           category: question.category,
           type: "MISSING_TITLE",
           message: `Title is required for ${question.category} at id ${question.id}`,
-        });
-      }
-    }
-
-    // Special validation for single_select
-    if (question.category === "single_select") {
-      // Check if options exist and have exactly two options
-      if (
-        !question.options ||
-        !Array.isArray(question.options) ||
-        question.options.length !== 2
-      ) {
-        errors.push({
-          id: question._id,
-          category: "single_select",
-          type: "INVALID_OPTIONS",
-          message: `Single select at id ${question.id} must have exactly two options`,
         });
       }
     }
