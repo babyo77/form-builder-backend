@@ -21,13 +21,13 @@ export const publishForm = async (
   //     isValidFormStructure.errors
   //   );
   if (unpublish) {
-    await Form.findByIdAndUpdate(formId, { published: false });
+    await Form.findByIdAndUpdate(formId, { publish: false });
     return res.json({
       message: "Form Unpublished",
       _id: formId,
       publish: false,
     });
   }
-  await Form.findByIdAndUpdate(formId, { published: true });
+  await Form.findByIdAndUpdate(formId, { publish: true });
   return res.json({ message: "Form published", _id: formId, publish: true });
 };

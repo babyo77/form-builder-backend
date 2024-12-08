@@ -10,11 +10,12 @@ export const checkToken = async (
 ): Promise<Response> => {
   const userId = req.userId;
   if (!userId) throw new ApiError("Refresh required", 401);
+
   const token =
     req.cookies.guest_token || req.headers.authorization?.split(" ")[1];
   const savedForm = await getFormPreview(userId);
 
-  const submissions = await getSubmission(savedForm);
+  const submissions = savedForm ? await getSubmission(savedForm) : null;
 
   const payload = {
     token,
