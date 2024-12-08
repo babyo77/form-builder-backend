@@ -19,13 +19,13 @@ router.get("/", async (_req, res) => {
 
 router.get("/api/make/session", asyncHandler(makeSession));
 router.get("/api/form/info/:id", publicAccess, asyncHandler(getFromData));
-router.post("/api/form/submit/:id", asyncHandler(submitForm));
 
 // auth
 router.use(asyncHandler(middleware));
 router.get("/api/check", asyncHandler(checkToken));
 router.get("/api/form/preview", asyncHandler(previewForm));
 router.get("/api/form/publish", asyncHandler(publishForm));
+router.post("/api/form/submit/:id", asyncHandler(submitForm));
 router.patch("/api/form/save", asyncHandler(saveForm));
 
 export default router;
