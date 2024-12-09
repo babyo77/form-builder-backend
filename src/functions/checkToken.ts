@@ -2,7 +2,6 @@ import { Response } from "express";
 import { CustomRequest } from "../middleware/middleware";
 import { ApiError } from "../handlers/ErrorHandler";
 import { getFormPreview, getSubmission } from "../lib/utils";
-import redisClient from "../lib/redis";
 
 export const checkToken = async (
   req: CustomRequest,

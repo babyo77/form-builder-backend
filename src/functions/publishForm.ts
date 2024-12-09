@@ -4,6 +4,7 @@ import { ApiError } from "../handlers/ErrorHandler";
 import { Form } from "../models/formModel";
 import { getFromDataById } from "../lib/utils";
 import { validateFormStructure } from "../validation/formStructureValidation";
+import { memoryCache } from "../cache/cache";
 
 export const publishForm = async (
   req: CustomRequest,
@@ -22,6 +23,8 @@ export const publishForm = async (
       400,
       isValidFormStructure.errors
     );
+  memoryCache.del(String(formId));
+  memoryCache.del(userId + "form");
   if (unpublish) {
     await Form.findByIdAndUpdate(formId, { publish: false });
     return res.json({
@@ -30,6 +33,7 @@ export const publishForm = async (
       publish: false,
     });
   }
+
   await Form.findByIdAndUpdate(formId, { publish: true });
   return res.json({ message: "Form published", _id: formId, publish: true });
 };
