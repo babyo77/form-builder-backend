@@ -11,3 +11,5 @@
 - **Express (Backend):** A minimalist web framework for Node.js to handle HTTP requests, routing, and serve the form data effectively.
 
 ``` Will write more ```
+
+[![Visits Badge](https://badges.pufler.dev/visits/babyo77/form-builder-backend)](https://badges.pufler.dev)
