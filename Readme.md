@@ -10,3 +10,4 @@
 - **Redis (Caching):** A fast, open-source, in-memory data store used to cache frequently accessed data for improved performance and scalability.
 - **Express (Backend):** A minimalist web framework for Node.js to handle HTTP requests, routing, and serve the form data effectively.
 
+``` Will write more ```

@@ -1,30 +1,15 @@
 import { Response } from "express";
 import { CustomRequest } from "../middleware/middleware";
 import { ApiError } from "../handlers/ErrorHandler";
-import {
-  getFromDataById,
-  getPreviousSubmitted,
-  makeGuestSession,
-} from "../lib/utils";
-import jwt from "jsonwebtoken";
-import { memoryCache } from "../cache/cache";
+import { getFromDataById, getPreviousSubmitted } from "../lib/utils";
+
 export const getFromData = async (
   req: CustomRequest,
   res: Response
 ): Promise<Response> => {
   const formId = req.params.id;
-  let userId = req.userId;
+  const userId = req.userId;
   if (!formId) throw new ApiError("Form id must be provided", 400);
-
-  if (!userId) {
-    const token = await makeGuestSession(res);
-    const payload = jwt.verify(
-      token,
-      process.env.SECRET_KEY || ""
-    ) as jwt.JwtPayload;
-
-    userId = payload.userId;
-  }
 
   const savedForm = await getFromDataById(formId);
 
