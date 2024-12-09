@@ -19,7 +19,6 @@ export const middleware = async (
     session,
     process.env.SECRET_KEY || ""
   ) as jwt.JwtPayload;
-  if (!payload.userId) throw new ApiError("Guest Session not found", 401);
   req.userId = payload.userId;
 
   next();

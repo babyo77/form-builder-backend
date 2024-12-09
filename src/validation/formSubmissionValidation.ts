@@ -39,7 +39,7 @@ export default function validateFormSubmission(
   const errors: ValidationError[] = [];
 
   // Create a map of form question ids for easy lookup
-  const formQuestionMap = new Map(formStructure.map((q) => [q._id, q]));
+  const formQuestionMap = new Map(formStructure.map((q) => [String(q._id), q]));
 
   // Track if there are any valid submissions
   let hasValidQuestions = false;

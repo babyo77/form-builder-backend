@@ -47,13 +47,11 @@ export async function getFormPreview(userId: string) {
 }
 
 export async function getFromDataById(formId: string) {
-  const saved = memoryCache.has(formId);
+  const saved = memoryCache.has(String(formId));
 
   const savedForm: IForm = saved
-    ? memoryCache.get(formId)
-    : await Form.findById(new mongoose.Types.ObjectId(formId)).select(
-        "-updatedAt -createdAt"
-      );
+    ? memoryCache.get(String(formId))
+    : await Form.findById(formId).select("-updatedAt -createdAt");
   return savedForm;
 }
 
