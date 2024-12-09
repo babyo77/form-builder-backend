@@ -17,8 +17,6 @@ export const submitForm = async (
   if (!answer) throw new ApiError("Invalid answer", 400);
   if (!userId) throw new ApiError("Login required", 401);
   const savedForm = await getFromDataById(formId);
-  console.log(savedForm.questions);
-
   const validate = validateFormSubmission(savedForm.questions, answer);
   if (validate.errors)
     throw new ApiError("Invalid submission", 400, validate.errors);
