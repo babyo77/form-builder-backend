@@ -12,7 +12,6 @@ export const previewForm = async (
 
   if (!userId) throw new ApiError("Login required", 401);
   const savedForm = await getFormPreview(userId);
-  const prevSubmitted = await getPreviousSubmitted(userId, formId);
 
-  return res.json({ savedForm, prevSubmitted });
+  return res.json({ savedForm });
 };
