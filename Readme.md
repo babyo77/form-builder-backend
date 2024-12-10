@@ -12,4 +12,7 @@
 
 ``` Will write more ```
 
-[![Visits Badge](https://badges.pufler.dev/visits/babyo77/form-builder-backend)](https://badges.pufler.dev)
+
+<p align="left">
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=babyo77.form-builder-backend" alt="Visitors">
+</p>
