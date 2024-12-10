@@ -43,6 +43,7 @@ export async function getFormPreview(userId: string) {
     : await Form.findOne({ owner: new mongoose.Types.ObjectId(userId) }).select(
         "-updatedAt -createdAt"
       );
+  memoryCache.set(userId + "form", savedForm);
   return savedForm as IForm;
 }
 
@@ -52,6 +53,7 @@ export async function getFromDataById(formId: string) {
   const savedForm: IForm = saved
     ? memoryCache.get(String(formId))
     : await Form.findById(formId).select("-updatedAt -createdAt");
+  memoryCache.set(String(formId), savedForm);
   return savedForm;
 }
 
@@ -130,6 +132,7 @@ export const getPreviousSubmitted = async (userId: string, formId: string) => {
         "-updatedAt -createdAt"
       );
   if (answers) {
+    memoryCache.set(userId + formId + "submitted", answers);
     const formData = (answers as any).submittedQuestions?.reduce(
       (acc: any, { _id, value }: any) => {
         acc[String(_id)] = value;
