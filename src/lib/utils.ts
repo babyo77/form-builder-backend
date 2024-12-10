@@ -120,7 +120,7 @@ export const getSubmission = async (savedForm: IForm) => {
           },
         },
       ]);
-  // await redisClient.set("submissions" + String(savedForm._id), submissions);
+  await redisClient.set("submissions" + String(savedForm._id), submissions);
   return submissions;
 };
 
