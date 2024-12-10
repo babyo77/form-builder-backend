@@ -4,6 +4,7 @@ import { ApiError } from "../handlers/ErrorHandler";
 import { Form } from "../models/formModel";
 import { deleteCacheByPattern, validateFrom } from "../lib/utils";
 import { memoryCache } from "../cache/cache";
+import FormSubmitted from "../models/formSubmitMode";
 
 export const saveForm = async (
   req: CustomRequest,
@@ -27,6 +28,7 @@ export const saveForm = async (
     path: "/",
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
+  await FormSubmitted.deleteMany({ formId: savedForm._id });
   deleteCacheByPattern("submitted");
   return res.send(String(savedForm._id));
 };

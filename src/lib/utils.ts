@@ -43,7 +43,7 @@ export async function getFormPreview(userId: string) {
     : await Form.findOne({ owner: new mongoose.Types.ObjectId(userId) }).select(
         "-updatedAt -createdAt"
       );
-  memoryCache.set(userId + "form", savedForm);
+  // memoryCache.set(userId + "form", savedForm);
   return savedForm as IForm;
 }
 
@@ -120,7 +120,7 @@ export const getSubmission = async (savedForm: IForm) => {
           },
         },
       ]);
-  await redisClient.set("submissions" + String(savedForm._id), submissions);
+  // await redisClient.set("submissions" + String(savedForm._id), submissions);
   return submissions;
 };
 
@@ -132,7 +132,6 @@ export const getPreviousSubmitted = async (userId: string, formId: string) => {
         "-updatedAt -createdAt"
       );
   if (answers) {
-    memoryCache.set(userId + formId + "submitted", answers);
     const formData = (answers as any).submittedQuestions?.reduce(
       (acc: any, { _id, value }: any) => {
         acc[String(_id)] = value;
