@@ -23,7 +23,11 @@ router.post(
   asyncHandler(publicAccess),
   asyncHandler(submitForm)
 );
-router.get("/api/form/info/:id", asyncHandler(getFromData));
+router.get(
+  "/api/form/info/:id",
+  asyncHandler(publicAccess),
+  asyncHandler(getFromData)
+);
 
 // auth
 router.use(asyncHandler(middleware));
