@@ -139,7 +139,7 @@ export default function validateFormSubmission(
         break;
 
       case "number":
-        const numRegex = /^-?\d+$/; // Matches only whole numbers (positive integers)
+        const numRegex = /^-?\d+$/;
         if (!numRegex.test(submittedQuestion.value)) {
           errors.push({
             id: questionStructure._id,
