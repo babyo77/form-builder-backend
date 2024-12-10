@@ -139,29 +139,14 @@ export default function validateFormSubmission(
         break;
 
       case "number":
-        if (submittedQuestion.value) {
-          // Check if the value is a valid number
-          const numRegex = /^-?\d+(\.\d+)?$/;
-          if (!numRegex.test(submittedQuestion.value)) {
-            errors.push({
-              id: questionStructure._id,
-              category: "number",
-              type: "INVALID_NUMBER",
-              message: `Invalid number format`,
-            });
-          } else {
-            // Optional: Add range validation if needed
-            const numValue = parseFloat(submittedQuestion.value);
-            if (numValue < 0 || numValue > 100) {
-              // Example range check
-              errors.push({
-                id: questionStructure._id,
-                category: "number",
-                type: "NUMBER_OUT_OF_RANGE",
-                message: `Number must be between 0 and 100`,
-              });
-            }
-          }
+        const numRegex = /^\d+$/; // Matches only whole numbers (positive integers)
+        if (!numRegex.test(submittedQuestion.value)) {
+          errors.push({
+            id: questionStructure._id,
+            category: "number",
+            type: "INVALID_NUMBER",
+            message: "Invalid number format",
+          });
         }
         break;
     }
